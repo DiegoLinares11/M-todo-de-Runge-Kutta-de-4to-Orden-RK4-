@@ -2,7 +2,7 @@
 
 Este proyecto utiliza el **Método de Runge-Kutta de 4to Orden (RK4)** para resolver ecuaciones diferenciales ordinarias (EDO) de primer orden.
 
-### Ecuaciones Diferenciales que se Resolverán
+### Ecuaciones Diferenciales que se Resolveran
 
 Las ecuaciones diferenciales que resolveremos son de la forma:
 
@@ -11,7 +11,7 @@ Las ecuaciones diferenciales que resolveremos son de la forma:
    La ecuación de primer orden que resolvemos es:
 
    \[
-   f(x, y) = x \cdot \sqrt{y}
+   f(x, y) = x * sqrt{y}
    \]
 
    Donde:
