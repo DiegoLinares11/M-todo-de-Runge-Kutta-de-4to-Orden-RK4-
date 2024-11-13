@@ -6,7 +6,7 @@ def main():
     opcion = input("¿Que ecuaciòn deseas resolver? \n1. para EDO de primer orden \n2. para EDO de segundo orden transformada a sistema\n ")
 
     if opcion == "1":
-        print("Resolviendo EDO de primer orden (Ejemplo: f(x, y) = x * sqrt(y))")
+        print("Resolviendo EDO de primer orden (Ejemplo: f(x, y) = x * raizde(y))")
 
         # Condiciones iniciales para la EDO de primer orden
         x0 = 1   
