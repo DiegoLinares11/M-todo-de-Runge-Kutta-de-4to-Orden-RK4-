@@ -8,7 +8,7 @@ y0 = 4
 x_end = 1.6  
 h = 0.2 
 
-# Función a probar de la forma x * raizdeY
+# Funciòn a probar de la forma x * raizdeY
 def f(x, y):
     return x * np.sqrt(y)
 
