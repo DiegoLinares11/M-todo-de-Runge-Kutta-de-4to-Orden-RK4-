@@ -1,5 +1,6 @@
 # Método de Runge-Kutta de 4to Orden (RK4) # 
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Condiciones iniciales
 x0 = 1  
@@ -49,3 +50,12 @@ x_vals, y_vals = runge_kutta(f, x0, y0, x_end, h)
 # Imprimimos los resultados
 for x, y in zip(x_vals, y_vals):
     print(f"x = {x:.2f}, y = {y:.4f}")
+
+plt.plot(x_vals, y_vals, label='Aproximación de Runge-Kutta 4to orden', marker='o', color='b')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Método de Runge-Kutta de 4to Orden: Aproximación de y(x)')
+plt.grid(True)
+plt.legend()
+plt.savefig('graficos/imagen1.png')  # guardarà el gráfico como archivo .png
+plt.show()
