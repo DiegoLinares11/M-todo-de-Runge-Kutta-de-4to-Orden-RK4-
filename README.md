@@ -1,35 +1,40 @@
 # Resolviendo EDO por medio del Método de Runge-Kutta de 4to Orden
 
-Este proyecto utiliza el **Método de Runge-Kutta de 4to Orden (RK4)** para resolver ecuaciones diferenciales ordinarias (EDO) de segundo orden, transformadas en un sistema de ecuaciones de primer orden.
+Este proyecto utiliza el **Método de Runge-Kutta de 4to Orden (RK4)** para resolver ecuaciones diferenciales ordinarias (EDO) de primer orden.
 
 ### Ecuaciones Diferenciales que se Resolverán
 
-El proyecto resuelve las siguientes Ecuaciones Diferenciales Ordinarias (EDO) transformadas a sistemas de primer orden:
+Las ecuaciones diferenciales que resolveremos son de la forma:
 
-1. **EDO de segundo orden:**
+1. **Ejemplo de ecuación de primer orden:**
+
+   La ecuación de primer orden que resolvemos es:
+
+   \[
+   f(x, y) = x \cdot \sqrt{y}
+   \]
+
+   Donde:
+   - \( x \) es la variable independiente,
+   - \( y \) es la función que deseamos resolver.
+
+2. **Sistema de primer orden equivalente para EDO de segundo orden:**
+
+   Para resolver EDOs de segundo orden, primero transformamos la ecuación en un sistema de primer orden. Un ejemplo es:
 
    \[
    z''(t) = 2e^t - 2z'(t) - z(t)
    \]
    
-   donde:
-   - \( z(t) \) es la función que deseamos resolver,
-   - \( z'(t) \) es la derivada de \( z(t) \),
-   - \( z''(t) \) es la segunda derivada de \( z(t) \).
+   Usamos el cambio de variable \( y(t) = z'(t) \), lo que nos lleva a un sistema de dos ecuaciones de primer orden:
 
-2. **Sistema de primer orden equivalente:**
-
-   Después de aplicar el cambio de variable \( y(t) = z'(t) \), la ecuación de segundo orden se convierte en un sistema de ecuaciones de primer orden:
-   
    \[
    y'(t) = 2e^t - 2y(t) - z(t)
    \]
-   
+
    \[
    z'(t) = y(t)
    \]
-
-   Donde ahora tenemos un sistema de dos ecuaciones diferenciales de primer orden para resolver.
 
 ### Cómo usar el código
 
