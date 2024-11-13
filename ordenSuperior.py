@@ -60,21 +60,21 @@ def runge_kutta_4(f1, f2, t0, z0, y0, t_end, h):
     return t_values, z_values, y_values
 
 
+# Función para resolver la EDO de segundo orden transformada a un sistema de primer orden
+def resolver_edo(t0, z0, y0, t_end, h):
+    # Llamamos a la función Runge-Kutta para resolver el sistema de ecuaciones
+    t_vals, z_vals, y_vals = runge_kutta_4(f1, f2, t0, z0, y0, t_end, h)
 
-# Llamamos a la función Runge-Kutta
-t_vals, z_vals, y_vals = runge_kutta_4(f1, f2, t0, z0, y0, t_end, h)
+    for t, z, y in zip(t_vals, z_vals, y_vals):
+        print(f"t = {t:.2f}, z = {z:.4f}, z' = {y:.4f}")
 
-# Imprimimos los resultados
-for t, z, y in zip(t_vals, z_vals, y_vals):
-    print(f"t = {t:.2f}, z = {z:.4f}, z' = {y:.4f}")
-
-# Graficamos los resultados
-plt.plot(t_vals, z_vals, label="z(t)", color='b', marker='o')
-plt.plot(t_vals, y_vals, label="z'(t)", color='r', marker='x')
-plt.xlabel('t')
-plt.ylabel('Valores de z y z\'')
-plt.title('Método de Runge-Kutta de 4to Orden - EDO de Orden Superior')
-plt.legend()
-plt.grid(True)
-plt.savefig('graficos/imagen2.png')  # guardarà el gráfico como archivo .png
-plt.show()
+    # Grafica
+    plt.plot(t_vals, z_vals, label="z(t)", color='b', marker='o')
+    plt.plot(t_vals, y_vals, label="z'(t)", color='r', marker='x')
+    plt.xlabel('t')
+    plt.ylabel('Valores de z y z\'')
+    plt.title('Método de Runge-Kutta de 4to Orden - EDO de Orden Superior')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('graficos/imagen2.png')  # Guardará el gráfico como un archivo .png
+    plt.show()

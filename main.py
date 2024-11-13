@@ -1,61 +1,34 @@
-# Método de Runge-Kutta de 4to Orden (RK4) # 
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Condiciones iniciales
-x0 = 1  
-y0 = 4  
-x_end = 1.6  
-h = 0.2 
-
-# Funciòn a probar de la forma x * raizdeY
-def f(x, y):
-    return x * np.sqrt(y)
+from ordenSuperior import f1, f2, resolver_edo
+from RungeKutta import resolver_ecuacion
 
 
-def runge_kutta(f, x0, y0, x_end, h):
-    #para almacenar los valores de x y y
-    x_values = [x0]
-    y_values = [y0]
+def main():
+    opcion = input("¿Que ecuaciòn deseas resolver? \n1. para EDO de primer orden \n2. para EDO de segundo orden transformada a sistema\n ")
 
-    # Comenzamos en las condiciones inicales
-    x = x0
-    y = y0
+    if opcion == "1":
+        print("Resolviendo EDO de primer orden (Ejemplo: f(x, y) = x * sqrt(y))")
 
-    while x <= x_end:
+        # Condiciones iniciales para la EDO de primer orden
+        x0 = 1   
+        y0 = 4    
+        x_end = 1.6  
+        h = 0.2    
+        resolver_ecuacion(x0, y0, x_end, h)
 
-        # Lo podriamos poner si no queremos que el limite no supere al x_end
-        #if x + h > x_end:
-         #   break 
+    elif opcion == "2":
+        # EDO de segundo orden Ejemplo z'' = 2e^t - 2z' - z
+        print("Resolviendo EDO de segundo orden transformada a sistema (Ejemplo: z'' = 2e^t - 2z' - z)")
 
-        # Calculamos los k's
-        k1 = f(x, y)
-        k2 = f(x + h/2, y + h/2 * k1)
-        k3 = f(x + h/2, y + h/2 * k2)
-        k4 = f(x + h, y + h * k3)
+        # Condiciones iniciales para la EDO de segundo orden
+        t0 = 0     
+        z0 = 0     
+        y0 = 1    
+        t_end = 2  
+        h = 0.1    
+        resolver_edo(t0, z0, y0, t_end, h)
 
-        # Actualizamos el valor de y y de x 
-        y = y + 1/6 * (k1 + 2*k2 + 2*k3 + k4) * h
-        x = x + h
-        
-        # Almacenamos los valores de y y x
-        y_values.append(y)
-        x_values.append(x)
+    else:
+        print("Opción no válida. Por favor ingresa 1 o 2.")
 
-
-    return x_values, y_values
-
-x_vals, y_vals = runge_kutta(f, x0, y0, x_end, h)
-
-# Imprimimos los resultados
-for x, y in zip(x_vals, y_vals):
-    print(f"x = {x:.2f}, y = {y:.4f}")
-
-plt.plot(x_vals, y_vals, label='Aproximación de Runge-Kutta 4to orden', marker='o', color='b')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Método de Runge-Kutta de 4to Orden: Aproximación de y(x)')
-plt.grid(True)
-plt.legend()
-plt.savefig('graficos/imagen1.png')  # guardarà el gráfico como archivo .png
-plt.show()
+if __name__ == "__main__":
+    main()
