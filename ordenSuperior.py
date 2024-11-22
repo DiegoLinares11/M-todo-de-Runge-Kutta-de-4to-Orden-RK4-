@@ -1,80 +1,74 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Funciones que representan el sistema de ecuaciones de primer orden
-def f1(t, z, y):
-    # Ecuación para y' = 2e^t - 2y - z
-    return 2 * np.exp(t) - 2 * y - z
 
-def f2(t, z, y):
-    # Ecuación para z' = y
-    return y
+def f1(y1, y2):
+    return y2
 
-# Condiciones iniciales
-t0 = 0   
-z0 = 0   
-y0 = 1   
-t_end = 2  
-h = 0.1  
+def f2(y1, y2):
+    return 3 * y2 - 2 * y1
 
-# Función para el método Runge-Kutta de 4to orden
-def runge_kutta_4(f1, f2, t0, z0, y0, t_end, h):
-    # almacenar los valores de t, z, y
+# Método de Runge-Kutta de 4to orden para sistemas
+def runge_kutta_2nd_order(f1, f2, y1_0, y2_0, t0, t_end, h):
     t_values = [t0]
-    z_values = [z0]
-    y_values = [y0]
-    
-    # condiciones iniciales
+    y1_values = [y1_0]
+    y2_values = [y2_0]
     t = t0
-    z = z0
-    y = y0
-    
-    #  Runge-Kutta para cada paso
+    y1 = y1_0
+    y2 = y2_0
+
     while t < t_end:
         if t + h > t_end:
-            break
-        
-        # Calcular los k1, k2, k3, k4 para z y y
-        k1z = h * f2(t, z, y)
-        k1y = h * f1(t, z, y)
-        
-        k2z = h * f2(t + h / 2, z + k1z / 2, y + k1y / 2)
-        k2y = h * f1(t + h / 2, z + k1z / 2, y + k1y / 2)
-        
-        k3z = h * f2(t + h / 2, z + k2z / 2, y + k2y / 2)
-        k3y = h * f1(t + h / 2, z + k2z / 2, y + k2y / 2)
-        
-        k4z = h * f2(t + h, z + k3z, y + k3y)
-        k4y = h * f1(t + h, z + k3z, y + k3y)
-        
-        # Actualizamos los valores de z y y
-        z = z + (k1z + 2*k2z + 2*k3z + k4z) / 6
-        y = y + (k1y + 2*k2y + 2*k3y + k4y) / 6
-        t = t + h
-        
-        # Almacenamos los resultados
+            h = t_end - t
+
+        # k's para y1
+        k1_y1 = h * f1(y1, y2)
+        k2_y1 = h * f1(y1 + k1_y1 / 2, y2 + h / 2 * k1_y1)
+        k3_y1 = h * f1(y1 + k2_y1 / 2, y2 + h / 2 * k2_y1)
+        k4_y1 = h * f1(y1 + k3_y1, y2 + h * k3_y1)
+
+        # k's para y2
+        k1_y2 = h * f2(y1, y2)
+        k2_y2 = h * f2(y1 + k1_y2 / 2, y2 + h / 2 * k1_y2)
+        k3_y2 = h * f2(y1 + k2_y2 / 2, y2 + h / 2 * k2_y2)
+        k4_y2 = h * f2(y1 + k3_y2, y2 + h * k3_y2)
+
+        # Actualización de valores
+        y1 += (k1_y1 + 2 * k2_y1 + 2 * k3_y1 + k4_y1) / 6
+        y2 += (k1_y2 + 2 * k2_y2 + 2 * k3_y2 + k4_y2) / 6
+        t += h
+
         t_values.append(t)
-        z_values.append(z)
-        y_values.append(y)
+        y1_values.append(y1)
+        y2_values.append(y2)
 
-    return t_values, z_values, y_values
+    return t_values, y1_values, y2_values
 
+# Solución analítica
+def solucion_analitica(t):
+    C1, C2 = 1, -1  # Constantes determinadas por condiciones iniciales
+    return C1 * np.exp(t) + C2 * np.exp(2 * t)
 
-# Función para resolver la EDO de segundo orden transformada a un sistema de primer orden
-def resolver_edo(t0, z0, y0, t_end, h):
-    # Llamamos a la función Runge-Kutta para resolver el sistema de ecuaciones
-    t_vals, z_vals, y_vals = runge_kutta_4(f1, f2, t0, z0, y0, t_end, h)
+# Resolución del sistema
+def resolver_edo(y1_0, y2_0, t0, t_end, h):
+    # Solución numérica
+    t_vals, y1_vals, y2_vals = runge_kutta_2nd_order(f1, f2, y1_0, y2_0, t0, t_end, h)
+    
+    # Solución analítica
+    t_analitica = np.linspace(t0, t_end, 100)
+    y_analitica = solucion_analitica(t_analitica)
 
-    for t, z, y in zip(t_vals, z_vals, y_vals):
-        print(f"t = {t:.2f}, z = {z:.4f}, z' = {y:.4f}")
-
-    # Grafica
-    plt.plot(t_vals, z_vals, label="z(t)", color='b', marker='o')
-    plt.plot(t_vals, y_vals, label="z'(t)", color='r', marker='x')
+    # Comparación de resultados
+    for t, y1, y2 in zip(t_vals, y1_vals, y2_vals):
+        print(f"t = {t:.2f}, y = {y1:.4f}, y' = {y2:.4f}")
+    
+    # Graficar
+    plt.plot(t_vals, y1_vals, label='y(t) - Numérico', marker='o')
+    plt.plot(t_analitica, y_analitica, label='y(t) - Analítico', linestyle='--')
     plt.xlabel('t')
-    plt.ylabel('Valores de z y z\'')
-    plt.title('Método de Runge-Kutta de 4to Orden - EDO de Orden Superior')
-    plt.legend()
+    plt.ylabel('Valores de y')
+    plt.title('Comparación de Soluciones Numérica y Analítica')
     plt.grid(True)
-    plt.savefig('graficos/imagen2.png')  # Guardará el gráfico como un archivo .png
+    plt.legend()
+    plt.savefig('graficos/edo_segundo_orden.png')
     plt.show()
